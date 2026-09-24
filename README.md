@@ -34,6 +34,10 @@ Quando o terminal parar, rode:
 npm start
 ```
 
+> **O terminal vai cuspir muito aviso durante a instalação** — pacotes obsoletos, contagem de vulnerabilidades, coisas em vermelho. **É normal e não é problema seu.** São dependências de dependências.
+>
+> ⚠️ **Não rode `npm audit fix --force`.** Ele aceita mudanças que quebram compatibilidade e derruba o projeto. Se alguém sugerir isso, ignore.
+
 O projeto já vem montado: TypeScript configurado, dependências declaradas, conexão com o banco escrita. O que **não** existe ainda é entidade nenhuma — é esse o trabalho de hoje.
 
 > ✅ **Pronto quando** o terminal imprimir `Conexao aberta. O banco esta pronto.`
@@ -186,6 +190,43 @@ Um documento por equipe, com estes cinco itens:
 
 ## Se travar
 
+### Primeiro: o projeto está na raiz?
+
+No terminal, rode:
+
+```bash
+ls
+```
+
+Você precisa ver `package.json`, `src` e `tsconfig.json` **soltos**. Se em vez disso aparecer uma pasta `clinica-aula06`, o projeto está um nível abaixo do que deveria — e nada vai funcionar até arrumar. Rode:
+
+```bash
+cd "$(git rev-parse --show-toplevel)"
+shopt -s dotglob
+mv clinica-aula06/* .
+rmdir clinica-aula06
+npm install
+npm start
+```
+
+> **Não apague o codespace. Não crie o repositório de novo. Não espere rebuild.** O `npm install` do meio faz exatamente o que a configuração automática teria feito. Leva uns 15 segundos.
+
+Se o `mv` reclamar que `README.md` já existe, apague o da raiz e rode de novo.
+
+Deve terminar imprimindo `Conexao aberta. O banco esta pronto.` A partir daí, siga o roteiro normalmente — você concluiu o roteiro 1.
+
+**Depois que funcionar**, deixe o seu repositório corrigido também:
+
+```bash
+git add -A
+git commit -m "Move o projeto para a raiz"
+git push
+```
+
+Isso importa porque a tarefa de casa continua nesse repositório. No Codespaces o push já vai autenticado — não precisa de senha nem de token.
+
+### Depois: as mensagens de erro
+
 | A mensagem parece com | O que provavelmente é |
 |---|---|
 | `No metadata for "Paciente" was found` | Você escreveu a classe mas não registrou a entidade na lista do `data-source.ts`. |
@@ -194,6 +235,9 @@ Um documento por equipe, com estes cinco itens:
 | Erro sobre tipo de coluna não determinado | Decorador escrito sem os parênteses — `@Column` em vez de `@Column()` — ou faltando o tipo do atributo. |
 | Erro ao alterar uma coluna que já existe | O banco em disco é mais velho que a sua entidade. Apague `clinica.db` e rode de novo. |
 | `Cannot find module 'typeorm'` | A instalação das dependências ainda não terminou, ou falhou. Rode `npm install` no terminal e espere. |
+| `ts-node: not found` | Mesma causa: as dependências não foram instaladas. Rode `npm install`. |
+| `Could not read package.json` | Você não está na raiz do projeto. Veja a seção acima. |
+| Erro citando `sqlite3`, `node-gyp` ou `binding` | O componente nativo do banco não terminou de instalar. Rode `npm install` de novo no terminal. Se insistir, levante a mão. |
 
 ---
 
