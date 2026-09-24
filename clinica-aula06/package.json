@@ -1,0 +1,19 @@
+{
+  "name": "clinica",
+  "version": "1.0.0",
+  "description": "Laboratorio da aula 06 - Frameworks de Persistencia de Dados - ENG202011",
+  "private": true,
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.2.2",
+    "sqlite3": "^5.1.7",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.0"
+  }
+}
